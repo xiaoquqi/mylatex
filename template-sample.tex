@@ -1,0 +1,29 @@
+\documentclass[a4paper]{article}
+\usepackage{endfloat,booktabs}
+
+\usepackage{tabularx}
+\usepackage{tabulary}
+\setlength{\tymin}{50pt}
+\setlength{\tymax}{\linewidth}
+
+
+\begin{document}
+
+\begin{table}
+\renewcommand{\arraystretch}{1.35} % vary this to suit your needs
+\centering
+\begin{tabular}{ll}
+\toprule
+search ``by='' & purpose\\
+\midrule
+abstract & search terms in the publication abstract\\
+author   & match authors in the publication\\
+id.taxon & Taxon identifier number from TreeBase\\
+tree     & The title for the tree\\
+\bottomrule
+\end{tabular}
+\caption{Queries available}
+\end{table}
+
+\input{book}
+\end{document}

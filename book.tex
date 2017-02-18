@@ -1,0 +1,2063 @@
+\chapter{DR Cloud测试方案建议书}
+\label{drcloud测试方案建议书}
+
+\section{硬件配置要求}
+\label{硬件配置要求}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LLLL@{}} \toprule
+硬件名称&配置&数量&注释\\
+\midrule
+生产端容灾恢复一体机&双路英特尔至强E5 2630 v3系列或以上CPU32GB DDR4或以上内存至少4块2TB SATA HDD千兆网口4个万兆网口2个远程管理控制口&1台&用于模拟本地生产环境的保护\\
+异地容灾恢复一体机&双路英特尔至强E5 2630 v3系列或以上CPU32GB DDR4或以上内存至少4块2TB SATA HDD千兆网口4个万兆网口2个远程管理控制口&1台&用于模拟异地生产环境的保护\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\section{网络配置要求}
+\label{网络配置要求}
+
+\begin{itemize}
+\item 两台物理机必须分别放置于两个VLAN中
+
+\item 两个VLAN通过三层地址能够互相访问
+
+\end{itemize}
+
+\section{测试编号说明}
+\label{测试编号说明}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+编号&说明\\
+\midrule
+DRCT0xx&安装部署相关的测试用例\\
+DRCT1xx&保护相关的测试用例\\
+DRCT2xx&恢复相关的测试用例\\
+DRCT3xx&恢复相关的测试用例\\
+DRCT5xx&平台本身测试用例\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\section{测试用例}
+\label{测试用例}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LLLL@{}} \toprule
+编号&测试用例名称&说明&结果\\
+\midrule
+DRCT001&DR Cloud的安装和配置&\multicolumn{2}{l}{用于测试DR Cloud是否能正常安装，安装过程中不需要过多人为的介入}\\
+DRCT101&Linux物理机客户端的安装和注册&\multicolumn{2}{l}{验证Linux Agent能够正确注册被保护的Linux物理机}\\
+DRCT102&Windows物理机客户端的安装和注册&\multicolumn{2}{l}{验证Windows Agent能够正确注册被保护的Windows物理机}\\
+DRCT103&VMware虚拟机注册&\multicolumn{2}{l}{能够正常添加ESXi或vCenter，发现所有虚拟机列表并且能正常注册}\\
+DRCT104&为物理机设定本地保护&\multicolumn{2}{l}{正确将物理机加入本地保护}\\
+DRCT105&为虚拟机设定本地保护&\multicolumn{2}{l}{能够为虚拟机正确加入保护，系统能够对虚拟机实现保护}\\
+DRCT106&设置远程保护&\multicolumn{2}{l}{能够将本地的虚拟机正确复制到远程的DR Cloud中，在这个过程中，用户可以对数据采用压缩和加密的策略}\\
+DRCT107&修改快照生成间隔&\multicolumn{2}{l}{能够正确修改快照生成的间隔，修改后，系统按照指定的时间间隔进行数据的保护}\\
+DRCT108&手动触发快照&\multicolumn{2}{l}{能够手动的对被保护主机执行快照，执行后，系统立即进行快照}\\
+DRCT201&物理机快速恢复至KVM平台&\multicolumn{2}{l}{正确将物理机恢复至KVM平台，恢复时间不超过30秒}\\
+DRCT202&物理机快速恢复至VMware平台&\multicolumn{2}{l}{正确将物理机快速恢复至VMware平台，恢复时间不超过30秒}\\
+DRCT203&VMware虚拟机快速恢复至VMware平台&\multicolumn{2}{l}{对VMware虚拟机可以采用快速启动的方式快速进行恢复，恢复时间不超过30秒}\\
+DRCT204&将远程复制的物理机快速恢复至KVM&\multicolumn{2}{l}{将远程复制的物理机快速恢复至KVM平台，恢复时间不超过30秒}\\
+DRCT205&将远程复制的VMware虚拟机快速恢复至VMware&\multicolumn{2}{l}{将远程复制的虚拟机正确恢复至VMware中，恢复时间不超过30秒}\\
+DRCT301&SQL Server数据库保护与恢复测试&\multicolumn{2}{l}{保护SQL Server数据库，并且数据库可以正常恢复}\\
+DRCT302&Windows Oracle数据库保护与恢复测试&\multicolumn{2}{l}{保护Oracle数据库，并且数据库可以正常恢复}\\
+DRCT303&Linux MySQL数据库保护与恢复测试&\multicolumn{2}{l}{保护MySQL数据库，并且数据库可以正常恢复}\\
+DRCT304&Linux Oracle数据库保护与恢复测试&\multicolumn{2}{l}{保护SQL Server数据库，并且数据库可以正常恢复}\\
+DRCT501&设置每页表格显示的数量&\multicolumn{2}{l}{正确设置每页表格显示的数量}\\
+DRCT502&语言设置&\multicolumn{2}{l}{正确设置系统界面的语言}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\section{DRCT001: DR Cloud的安装和配置}
+\label{drct001:drcloud的安装和配置}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&DR Cloud的安装和配置\\
+\midrule
+前提条件&DR Cloud ISO镜像\\
+测试步骤&1、部署和软件并记录时间2、通过浏览器访问管理控制台\\
+测试预期&1、在标准x86硬件上部署DR Cloud，可以部署在物理机或是虚拟机中2、不需要安装操作系统或数据库3、可以通过WEB浏览器远程访问管理控制台\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1：部署和软件配置}
+\label{步骤1：部署和软件配置}
+
+1) 将ISO挂载或制作光盘，然后开机，当出现开始界面后，选择DRProphet + DRCloud
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT001-1.png}
+\end{figure}
+
+2) 选择目标盘，使用tab键切换到Apply按钮并回车，开始安装过程
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT001-2.png}
+\end{figure}
+
+3) 检查安装进度
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT001-3.png}
+\end{figure}
+
+4) 安装完成后，按照提示将光盘取出并点击OK重启服务器
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT001-4.png}
+\end{figure}
+
+5) 配置网络
+
+当出现屏幕提示时，配置网络。注意：如果有多块网卡被检测到，将自动使用eth1网卡。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT001-5.png}
+\end{figure}
+
+6) 完成配置
+
+选择skip，跳过federator的安装。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT001-6.png}
+\end{figure}
+
+步骤2：通过WEB访问管理控制台
+
+\subsection{步骤2: 打开浏览器(推荐使用Chrome或者Firefox)}
+\label{步骤2:打开浏览器推荐使用chrome或者firefox}
+
+\begin{itemize}
+\item 访问DR Cloud管理面板地址：http:\slash \slash :8088
+
+\item 默认账户名：admin
+
+\item 默认密码：admin\_pass
+
+\end{itemize}
+
+\section{DRCT101: Linux物理机客户端的安装和注册}
+\label{drct101:linux物理机客户端的安装和注册}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&安装DR Cloud Linux客户端并且在DR Cloud服务端注册\\
+\midrule
+前提条件&1、DR Cloud Linux客户端2、CentOS 7\\
+测试步骤&1、在应用服务器安装DR Cloud Linux客户端2、在DR Cloud服务端确认是否已经注册，并且显示在列表中\\
+测试预期&1、安装Linux DR Cloud不影响客户端2、成功向DR Cloud注册\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 在应用服务器安装DR Cloud Linux客户端}
+\label{步骤1:在应用服务器安装drcloudlinux客户端}
+
+\begin{itemize}
+\item 下载安装包
+
+\end{itemize}
+
+\begin{verbatim}
+wget http://<管理节点IP>/softwares/centos7/egis-agent-1.1-1.el7.x86_64.rpm
+wget http://<管理节点IP>/softwares/centos7/iscsi-initiator-utils-6.2.0.873-33.el7_2.2.x86_64.rpm
+wget http://<管理节点IP>/softwares/centos7/iscsi-initiator-utils-iscsiuio-6.2.0.873-33.el7_2.2.x86_64.rpm
+wget http://<管理节点IP>/softwares/centos7/dattobd-$(uname -r).rpm
+wget http://<管理节点IP>/softwares/centos7/partclone-0.2.89-10.x86_64.rpm
+\end{verbatim}
+
+\begin{itemize}
+\item 安装
+
+\end{itemize}
+
+\begin{verbatim}
+rpm -ivh egis-agent-1.1-1.el7.x86_64.rpm \
+  dattobd-$(uname -r).rpm \
+  iscsi-initiator-utils-6.2.0.873-33.el7_2.2.x86_64.rpm  \
+  partclone-0.2.89-10.x86_64.rpm
+\end{verbatim}
+
+\begin{itemize}
+\item 设置保护
+
+\end{itemize}
+
+修改配置文件: \slash etc\slash sysconfig\slash egis-agent
+
+\begin{verbatim}
+log_dir=/var/log/egis-agent
+drcloud_url=管理网IP:8760
+\end{verbatim}
+
+重新启动 egis-agent 服务，并检查服务状态，保证服务为 running 状态
+
+\begin{verbatim}
+systemctl restart egis-agent.service
+systemctl status egis-agent.service
+\end{verbatim}
+
+\subsection{步骤2: 在DR Cloud服务端确认是否已经注册}
+\label{步骤2:在drcloud服务端确认是否已经注册}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT101-1.png}
+\end{figure}
+
+\section{DRCT102: Windows物理机客户端的安装和注册}
+\label{drct102:windows物理机客户端的安装和注册}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&安装DR Cloud Windows客户端并且在DR Cloud服务端注册\\
+\midrule
+前提条件&1、DR Cloud Windows客户端2、dotnet framework或更高3、开启iscsi initiator4、防火墙打开3260和5988端口\\
+测试步骤&1、在应用服务器安装DR Cloud Windows客户端2、填写注册信息(包括IO限速)3、在DR Cloud服务端确认是否已经注册，并且显示在列表中4、确认Agent能够正确上报被保护的主要磁盘5、设置限速\\
+测试预期&1、安装Windows DR Cloud不影响客户端2、成功向DR Cloud注册3、向DR Cloud正确上报客户端磁盘信息\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 安装DR Cloud Windows代理端}
+\label{步骤1:安装drcloudwindows代理端}
+
+1) 防火墙的设定
+
+【开始】-$>$【命令提示符】执行：netsh advfirewall firewall add rule name=``DRP Backup Port'' dir=in action=allow protocol=TCP localport=5988
+
+在防火墙中进行验证，验证方法：【开始】-$>$【管理工具】-$>$【高级安全Windows防火墙】
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT102-1.png}
+\end{figure}
+
+在打开的界面中左侧列表中点击【入站规则】，在右侧窗口中应当显示【DRP Backup Port】，证明防火墙规则添加成功。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT102-2.png}
+\end{figure}
+
+2) Microsoft .NET Framework 4安装
+
+打开浏览器，从容灾还原一体机上下载Microsoft .NET Framework 4安装包并且安装，下载地址：http:\slash \slash $<$管理节点IP$>$\slash softwares\slash windows\slash dotnet4.5.exe。
+
+3) 安装保护代理
+
+\begin{itemize}
+\item 打开浏览器，从容灾还原一体机下载Windows保护Agent，下载地址：http:\slash \slash $<$管理节点IP$>$\slash softwares\slash windows\slash drprophet-master-agent--3.x-xxxx.exe
+
+\item 运行安装，此时安装程序将安装三个相关的程序：DR Prophet Master Agent, DR Prophet Job Agent, DR Prophet Agent，采用默认安装方式，全部选择【Next】，如果出现文件目录已经存在的提示，则选择【OK】。
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT102-3.png}
+\end{figure}
+
+\subsection{步骤2: 填写注册信息(包括IO限速)}
+\label{步骤2:填写注册信息包括io限速}
+
+安装成功后，将显示设置窗口(如下图所示)
+
+\begin{itemize}
+\item 链接方式：iscsi
+
+\item 选择要保护的磁盘，把他们拖到``包含磁盘''中
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT102-4.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击【Network】标签，在【Use the specified management server】中填入容灾还原一体机管理地址。
+
+\item 如果需要对传输进行限速，则勾选【Throttling】，填入限速速度，默认情况下，无需限制。
+
+\item 最后在【How can DRProphet server connect to this machine】中选择容灾还原一体机连接被保护服务器的IP地址。
+
+\item 如果服务器原有IP地址可以直接连接，则选择【Connect to my local IP】。
+
+\item 如果服务器需要其他地址转发后才能连接，则选择【Connect via a NAT address】。
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT102-5.png}
+\end{figure}
+
+\begin{itemize}
+\item 填写完成后，选择【OK】，完成客户端的配置。
+
+\end{itemize}
+
+\subsection{步骤3: 确认注册成功，以及上报信息无误。}
+\label{步骤3:确认注册成功，以及上报信息无误。}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT102-6.png}
+\end{figure}
+
+\section{DRCT103: VMware虚拟机注册}
+\label{drct103:vmware虚拟机注册}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&发现VMware虚拟机并且在DR Cloud注册\\
+\midrule
+前提条件&1、ESXi 5.1或更高版本2、存储API功能确认开启\\
+测试步骤&1、添加ESXi或者vCenter地址2、检查所有保护的虚拟机3、确认注册成功\\
+测试预期&不需要代理程序就可以注册ESXi上的虚拟机\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 添加ESXi或者vCenter地址}
+\label{步骤1:添加esxi或者vcenter地址}
+
+\begin{itemize}
+\item 点击【虚拟化服务器】-$>$【VMware】-$>$【连接】-$>$【创建】-$>$ 输入要连接的Vcenter IP地址\slash 端口\slash 账户\slash 密码等信息-$>$【创建】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT103-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 创建完成后，点击【ESXI服务器】来查看此Vcenter下的所有ESXI主机，勾选ESXI主机 点击【网络设定】-$>$【添加】， 输入要创建的网络名称\slash VLAN ID-$>$【保存】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT103-2.png}
+\end{figure}
+
+\subsection{步骤2: 检查所有保护的虚拟机}
+\label{步骤2:检查所有保护的虚拟机}
+
+\begin{itemize}
+\item 点击【虚拟化服务器】-$>$【VMware】-$>$【连接】点击添加的Vcenter主机名称，在跳转页面中会此Vcenter主机的连接详情以及其下的所有VM虚拟机
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT103-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 勾选要保护的VM点击【注册】-$>$【确定】，勾选刚注册的主机【加入保护】-$>$【确定】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT103-4.png}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT103-5.png}
+\end{figure}
+
+\subsection{步骤3: 确认注册成功}
+\label{步骤3:确认注册成功}
+
+在【未保护主机】中能够成功看到刚才加入保护的虚拟机
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT103-6.png}
+\end{figure}
+
+\section{DRCT104: 为物理机设定本地保护}
+\label{drct104:为物理机设定本地保护}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&物理机本地保护的设定\\
+\midrule
+前提条件&DRCT102必须完成\\
+测试步骤&1、通过DR Cloud管理平台设置保护2、确认保护设置成功\\
+测试预期&1、成功添加保护2、所有镜像盘以thin provision方式分配\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 通过DR Cloud管理平台设置保护}
+\label{步骤1:通过drcloud管理平台设置保护}
+
+\begin{itemize}
+\item 登录DRP管理页面, http:\slash \slash $<$DRP\_SERVER\_IP$>$:8088
+
+\item 点击【主机保护】-$>$【未保护主机】，勾选未保护主机点击【加入保护】选项
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT104-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 选择后端存储服务器，可自动分配也可手动指定，点击【确定】选项
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT104-2.png}
+\end{figure}
+
+\subsection{步骤2: 确认保护设置成功}
+\label{步骤2:确认保护设置成功}
+
+确认添加的主机已经成功的出现在【已保护主机中】
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT104-3.png}
+\end{figure}
+
+\section{DRCT105：为虚拟机设定本地保护}
+\label{drct105：为虚拟机设定本地保护}
+
+\begin{itemize}
+\item 登录DRP管理页面, http:\slash \slash $<$DRP\_SERVER\_IP$>$:8088
+
+\item 点击【主机保护】-$>$【未保护主机】，勾选未保护主机点击【加入保护】选项
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT104-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 选择后端存储服务器，可自动分配也可手动指定，点击【确定】选项
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT104-2.png}
+\end{figure}
+
+\subsection{步骤2: 确认保护设置成功}
+\label{步骤2:确认保护设置成功}
+
+确认添加的主机已经成功的出现在【已保护主机中】
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT104-3.png}
+\end{figure}
+
+\section{DRCT106：设置远程复制}
+\label{drct106：设置远程复制}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&为本地已经保护的节点设置远程复制\\
+\midrule
+前提条件&DRCT104和DRCT105必须完成\\
+测试步骤&1、通过DR Cloud管理平台设置复制2、确认复制设置成功3、配置复制计划\\
+测试预期&1、成功设定复制2、成功配置复制计划\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 通过DR Cloud管理平台设置复制}
+\label{步骤1:通过drcloud管理平台设置复制}
+
+\begin{itemize}
+\item 进入DR Cloud的【主机保护】-$>$【远程复制】，点击创建，【主机】选择已经保护的主机，【远程服务器】直接输入远端主机的IP信息，【存储用户】输入drprophet，【压缩】选择是，【加密】选择否，点击确认
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT106-1.png}
+\end{figure}
+
+\subsection{步骤2: 确认复制设置成功}
+\label{步骤2:确认复制设置成功}
+
+\begin{itemize}
+\item 在列表页面中应出现一条新的记录
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT106-2.png}
+\end{figure}
+
+\subsection{步骤3: 配置复制计划}
+\label{步骤3:配置复制计划}
+
+\begin{itemize}
+\item 选择刚刚保护的主机，点击更新，设置复制的时间间隔
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT106-3.png}
+\end{figure}
+
+\section{DRCT107: 修改快照生成间隔}
+\label{drct107:修改快照生成间隔}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&修改快照生成间隔\\
+\midrule
+前提条件&DRCT104和DRCT105必须完成\\
+测试步骤&1、修改快照计划2、确认数据复制开始时间正确\\
+测试预期&1、成功修改快照计划2、正确配置快照开始时间\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 修改快照计划}
+\label{步骤1:修改快照计划}
+
+\begin{itemize}
+\item 选择【已保护主机】，勾选已经保护的主机，点击【保护设置】，设置【快照间隔】、【快照配额】和【快照开始时间】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT107-1.png}
+\end{figure}
+
+\subsection{步骤2: 确认数据复制开始时间正确}
+\label{步骤2:确认数据复制开始时间正确}
+
+\begin{itemize}
+\item 在列表页面中，确认快照间隔设置正确
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT107-1.png}
+\end{figure}
+
+\section{DRCT108: 手动触发快照}
+\label{drct108:手动触发快照}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&手动触发快照\\
+\midrule
+前提条件&DRCT104和DRCT105必须完成\\
+测试步骤&1、手动触发快照2、查看作业列表，确认任务是否已经执行\\
+测试预期&成功触发快照\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 手动触发快照}
+\label{步骤1:手动触发快照}
+
+\begin{itemize}
+\item 查看已保护主机,并勾选需要执行快照的主机，并点击创建快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT108-1.png}
+\end{figure}
+
+\subsection{步骤2: 查看作业列表，确认任务是否已经执行}
+\label{步骤2:查看作业列表，确认任务是否已经执行}
+
+\begin{itemize}
+\item 查看【运维管理】-$>$【任务】，查看任务是否已经开始执行
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT108-2.png}
+\end{figure}
+
+\section{DRCT201: 物理机快速恢复至KVM平台}
+\label{drct201:物理机快速恢复至kvm平台}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&物理机快速恢复至KVM平台\\
+\midrule
+前提条件&1、DRCT104必须完成2、已经有快照产生\\
+测试步骤&1、设定主机组2、设定恢复计划3、恢复4、查看已经恢复的资源\\
+测试预期&1、成功设定主机组2、资源成功恢复3、恢复时间小于30秒\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 设定主机组}
+\label{步骤1:设定主机组}
+
+\begin{itemize}
+\item 进入DR Cloud，选择【灾难恢复】-$>$【主机组】，点击创建，选择主机组内包含的主机，选择已经保护的物理机，点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 创建成功后，返回列表页面中应显示主机组的内容
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-2.png}
+\end{figure}
+
+\subsection{步骤2: 设定恢复计划}
+\label{步骤2:设定恢复计划}
+
+\begin{itemize}
+\item 选择【灾难恢复】-$>$【恢复计划】，点击创建，选择刚刚创建的主机组，系统将自动检测该主机组内包含的主机是否包含快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择基本的配置信息，选择恢复的目标主机为KVM平台主机，并选择已经创建的网络和恢复的规格
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-4.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择恢复的时间点信息，最后点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-5.png}
+\end{figure}
+
+\subsection{步骤3: 恢复}
+\label{步骤3:恢复}
+
+\begin{itemize}
+\item 在列表页面中，选择刚刚创建的恢复计划，并点击恢复，资源开始进行恢复
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-6.png}
+\end{figure}
+
+\subsection{步骤4: 查看已经恢复的资源}
+\label{步骤4:查看已经恢复的资源}
+
+\begin{itemize}
+\item 恢复完成后，点击【已恢复主机】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-7.png}
+\end{figure}
+
+\section{DRCT202：物理机快速恢复至VMware平台}
+\label{drct202：物理机快速恢复至vmware平台}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&物理机快速恢复至VMware平台\\
+\midrule
+前提条件&1、DRCT105必须完成2、已经有快照产生\\
+测试步骤&1、设定主机组2、设定恢复计划3、恢复4、查看已经恢复的资源\\
+测试预期&1、成功设定主机组2、资源成功恢复3、恢复时间小于30秒\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 设定主机组}
+\label{步骤1:设定主机组}
+
+\begin{itemize}
+\item 进入DR Cloud，选择【灾难恢复】-$>$【主机组】，点击创建，选择主机组内包含的主机，选择已经保护的Windows物理机，点击创建
+
+\end{itemize}
+
+\begin{quote}
+
+注意：Linux物理机暂时无法恢复至VMware平台
+\end{quote}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 创建成功后，返回列表页面中应显示主机组的内容
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-2.png}
+\end{figure}
+
+\subsection{步骤2: 设定恢复计划}
+\label{步骤2:设定恢复计划}
+
+\begin{itemize}
+\item 选择【灾难恢复】-$>$【恢复计划】，点击创建，选择刚刚创建的主机组，系统将自动检测该主机组内包含的主机是否包含快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择基本的配置信息，选择恢复的目标主机为VMware的ESXi或者vCenter，并选择已经创建的网络和恢复的规格
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-4.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择恢复的时间点信息，最后点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-5.png}
+\end{figure}
+
+\subsection{步骤3: 恢复}
+\label{步骤3:恢复}
+
+\begin{itemize}
+\item 在列表页面中，选择刚刚创建的恢复计划，并点击恢复，资源开始进行恢复
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-6.png}
+\end{figure}
+
+\subsection{步骤4: 查看已经恢复的资源}
+\label{步骤4:查看已经恢复的资源}
+
+\begin{itemize}
+\item 恢复完成后，点击【已恢复主机】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-7.png}
+\end{figure}
+
+\section{DRCT203: VMware虚拟机快速恢复至VMware平台}
+\label{drct203:vmware虚拟机快速恢复至vmware平台}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&VMware虚拟机快速恢复至VMware平台\\
+\midrule
+前提条件&1、DRCT105必须完成2、已经有快照产生\\
+测试步骤&1、设定主机组2、设定恢复计划3、恢复4、查看已经恢复的资源\\
+测试预期&1、成功设定主机组2、资源成功恢复3、恢复时间小于30秒\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 设定主机组}
+\label{步骤1:设定主机组}
+
+\begin{itemize}
+\item 进入DR Cloud，选择【灾难恢复】-$>$【主机组】，点击创建，选择主机组内包含的主机，选择已经保护的VMware虚拟机，点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT203-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 创建成功后，返回列表页面中应显示主机组的内容
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-2.png}
+\end{figure}
+
+\subsection{步骤2: 设定恢复计划}
+\label{步骤2:设定恢复计划}
+
+\begin{itemize}
+\item 选择【灾难恢复】-$>$【恢复计划】，点击创建，选择刚刚创建的主机组，系统将自动检测该主机组内包含的主机是否包含快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择基本的配置信息，选择恢复的目标主机为VMware的ESXi或者vCenter，并选择已经创建的网络和恢复的规格
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-4.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择恢复的时间点信息，最后点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-5.png}
+\end{figure}
+
+\subsection{步骤3: 恢复}
+\label{步骤3:恢复}
+
+\begin{itemize}
+\item 在列表页面中，选择刚刚创建的恢复计划，并点击恢复，资源开始进行恢复
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-6.png}
+\end{figure}
+
+\subsection{步骤4: 查看已经恢复的资源}
+\label{步骤4:查看已经恢复的资源}
+
+\begin{itemize}
+\item 恢复完成后，点击【已恢复主机】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-7.png}
+\end{figure}
+
+\section{DRCT204: 将远程复制的物理机快速恢复至KVM}
+\label{drct204:将远程复制的物理机快速恢复至kvm}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&将远程复制的物理机快速恢复至KVM\\
+\midrule
+前提条件&1、DRCT104、DRCT105和DRCT106必须完成2、已经复制到远端DR Cloud\\
+测试步骤&1、设定主机组2、设定恢复计划3、恢复4、查看已经恢复的资源\\
+测试预期&1、成功设定主机组2、资源成功恢复3、恢复时间小于30秒\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 设定主机组}
+\label{步骤1:设定主机组}
+
+\begin{itemize}
+\item 进入DR Cloud，选择【灾难恢复】-$>$【主机组】，点击创建，选择主机组内包含的主机，选择已经保护的VMware虚拟机，点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT204-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 创建成功后，返回列表页面中应显示主机组的内容
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-2.png}
+\end{figure}
+
+\subsection{步骤2: 设定恢复计划}
+\label{步骤2:设定恢复计划}
+
+\begin{itemize}
+\item 选择【灾难恢复】-$>$【恢复计划】，点击创建，选择刚刚创建的主机组，系统将自动检测该主机组内包含的主机是否包含快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择基本的配置信息，选择恢复的目标主机为VMware的ESXi或者vCenter，并选择已经创建的网络和恢复的规格
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-4.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择恢复的时间点信息，最后点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-5.png}
+\end{figure}
+
+\subsection{步骤3: 恢复}
+\label{步骤3:恢复}
+
+\begin{itemize}
+\item 在列表页面中，选择刚刚创建的恢复计划，并点击恢复，资源开始进行恢复
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-6.png}
+\end{figure}
+
+\subsection{步骤4: 查看已经恢复的资源}
+\label{步骤4:查看已经恢复的资源}
+
+\begin{itemize}
+\item 恢复完成后，点击【已恢复主机】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-7.png}
+\end{figure}
+
+\section{DRCT205: 将远程复制的VMware虚拟机快速恢复至VMware}
+\label{drct205:将远程复制的vmware虚拟机快速恢复至vmware}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&将远程复制的VMware虚拟机快速恢复至VMware\\
+\midrule
+前提条件&1、DRCT104、DRCT105和DRCT106必须完成2、已经复制到远端DR Cloud\\
+测试步骤&1、设定主机组2、设定恢复计划3、恢复4、查看已经恢复的资源\\
+测试预期&1、成功设定主机组2、资源成功恢复3、恢复时间小于30秒\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 设定主机组}
+\label{步骤1:设定主机组}
+
+\begin{itemize}
+\item 进入DR Cloud，选择【灾难恢复】-$>$【主机组】，点击创建，选择主机组内包含的主机，选择已经保护的VMware虚拟机，点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT205-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 创建成功后，返回列表页面中应显示主机组的内容
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-2.png}
+\end{figure}
+
+\subsection{步骤2: 设定恢复计划}
+\label{步骤2:设定恢复计划}
+
+\begin{itemize}
+\item 选择【灾难恢复】-$>$【恢复计划】，点击创建，选择刚刚创建的主机组，系统将自动检测该主机组内包含的主机是否包含快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择基本的配置信息，选择恢复的目标主机为VMware的ESXi或者vCenter，并选择已经创建的网络和恢复的规格
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-4.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择恢复的时间点信息，最后点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-5.png}
+\end{figure}
+
+\subsection{步骤3: 恢复}
+\label{步骤3:恢复}
+
+\begin{itemize}
+\item 在列表页面中，选择刚刚创建的恢复计划，并点击恢复，资源开始进行恢复
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-6.png}
+\end{figure}
+
+\subsection{步骤4: 查看已经恢复的资源}
+\label{步骤4:查看已经恢复的资源}
+
+\begin{itemize}
+\item 恢复完成后，点击【已恢复主机】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-7.png}
+\end{figure}
+
+\section{DRCT301: SQL Server数据库保护与恢复测试}
+\label{drct301:sqlserver数据库保护与恢复测试}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&SQL Server数据库保护与恢复测试\\
+\midrule
+前提条件&1、在Windows 2008 R2 64bit服务器上，正确配置和安装SQL Server 2008版本2、可以通过客户端正确访问SQL Server3、在另外一台客户端上，已经安装了Benchmark Factory压力测试工具4、参考DRCT102完成Windows的注册和保护5、参考DRCT104将Windows加入保护\\
+测试步骤&1、手动执行快照2、开始压力测试3、再次执行快照4、使用快照点进行恢复5、验证恢复的系统能否正常访问SQL Server\\
+测试预期&1、SQL Server能够被正确保护2、SQL Server能被正常恢复\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 手动执行快照}
+\label{步骤1:手动执行快照}
+
+\begin{itemize}
+\item 查看已保护主机,并勾选需要执行快照的主机，并点击创建快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT108-1.png}
+\end{figure}
+
+\subsection{步骤2: 开始压力测试}
+\label{步骤2:开始压力测试}
+
+\begin{itemize}
+\item 在Benchmark Factory官方网站下载试用版本并正确安装：
+
+\end{itemize}
+
+\begin{quote}
+
+https:\slash \slash www.quest.com\slash register\slash 54678\slash 
+\end{quote}
+
+\begin{itemize}
+\item 配置连接方式
+
+\item 配置压力测试的类型
+
+\end{itemize}
+
+\begin{quote}
+
+注意：受被测试机器性能的限制，不建议选择过高的压力测试内容，避免服务器超载
+\end{quote}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT301-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 确认压力测试开始
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT301-2.png}
+\end{figure}
+
+\subsection{步骤3: 再次执行快照}
+\label{步骤3:再次执行快照}
+
+\begin{itemize}
+\item 查看已保护主机,并勾选需要执行快照的主机，并点击创建快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT108-1.png}
+\end{figure}
+
+\subsection{步骤4: 使用快照点进行恢复}
+\label{步骤4:使用快照点进行恢复}
+
+\begin{itemize}
+\item 进入DR Cloud，选择【灾难恢复】-$>$【主机组】，点击创建，选择主机组内包含的主机，选择已经保护的物理机，点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 创建成功后，返回列表页面中应显示主机组的内容
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-2.png}
+\end{figure}
+
+\begin{itemize}
+\item 选择【灾难恢复】-$>$【恢复计划】，点击创建，选择刚刚创建的主机组，系统将自动检测该主机组内包含的主机是否包含快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择基本的配置信息，选择恢复的目标主机为KVM平台主机，并选择已经创建的网络和恢复的规格
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-4.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择恢复的时间点信息，最后点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-5.png}
+\end{figure}
+
+\begin{itemize}
+\item 在列表页面中，选择刚刚创建的恢复计划，并点击恢复，资源开始进行恢复
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-6.png}
+\end{figure}
+
+\begin{itemize}
+\item 恢复完成后，点击【已恢复主机】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-7.png}
+\end{figure}
+
+\subsection{步骤5: 验证恢复的系统能够正常访问SQL Server}
+\label{步骤5:验证恢复的系统能够正常访问sqlserver}
+
+\section{DRCT302: Windows Oracle数据库保护与恢复测试}
+\label{drct302:windowsoracle数据库保护与恢复测试}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&Windows Oracle数据库保护与恢复测试\\
+\midrule
+前提条件&1、在Windows 2008 R2 64bit服务器上，正确配置和安装Oracle 12c版本2、可以通过客户端正确访问Oracle3、在另外一台客户端上，已经安装了Benchmark Factory压力测试工具4、参考DRCT102完成Windows的注册和保护5、参考DRCT104将Windows加入保护\\
+测试步骤&1、手动执行快照2、开始压力测试3、再次执行快照4、使用快照点进行恢复5、验证恢复的系统能否正常访问Oracle\\
+测试预期&1、Oracle能够被正确保护2、Oracle能被正常恢复\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 手动执行快照}
+\label{步骤1:手动执行快照}
+
+\begin{itemize}
+\item 查看已保护主机,并勾选需要执行快照的主机，并点击创建快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT108-1.png}
+\end{figure}
+
+\subsection{步骤2: 开始压力测试}
+\label{步骤2:开始压力测试}
+
+\begin{itemize}
+\item 在Benchmark Factory官方网站下载试用版本并正确安装：
+
+\end{itemize}
+
+\begin{quote}
+
+https:\slash \slash www.quest.com\slash register\slash 54678\slash 
+\end{quote}
+
+\begin{itemize}
+\item 下载Oracle的客户端
+
+\end{itemize}
+
+在客户端安装Oracle客户端，访问Oracle Instance Client Downloads for Microsoft Windows(x64)页面：
+
+\begin{quote}
+
+http:\slash \slash www.oracle.com\slash technetwork\slash topics\slash winx64soft--089540.html
+\end{quote}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT302-1.png}
+\end{figure}
+
+Accept协议后，下载instanceclient-basic-windows.x64--12.1.0.2.0.zip。
+
+\begin{itemize}
+\item 配置Oracle客户端
+
+\end{itemize}
+
+下载完成后，将zip文件解压缩到C盘根目录中，例如将所有文件解压缩到C:\textbackslash{}instantclient\_12\_1中后，配置系统环境变量，在PATH中添加这个目录。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT302-2.png}
+\end{figure}
+
+\begin{itemize}
+\item 使用Benchmark连接Oracle
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT302-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 配置压力测试的类型
+
+\end{itemize}
+
+\begin{quote}
+
+注意：受被测试机器性能的限制，不建议选择过高的压力测试内容，避免服务器超载
+\end{quote}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT301-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 确认压力测试开始
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT301-2.png}
+\end{figure}
+
+\subsection{步骤3: 再次执行快照}
+\label{步骤3:再次执行快照}
+
+\begin{itemize}
+\item 查看已保护主机,并勾选需要执行快照的主机，并点击创建快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT108-1.png}
+\end{figure}
+
+\subsection{步骤4: 使用快照点进行恢复}
+\label{步骤4:使用快照点进行恢复}
+
+\begin{itemize}
+\item 进入DR Cloud，选择【灾难恢复】-$>$【主机组】，点击创建，选择主机组内包含的主机，选择已经保护的物理机，点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 创建成功后，返回列表页面中应显示主机组的内容
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-2.png}
+\end{figure}
+
+\begin{itemize}
+\item 选择【灾难恢复】-$>$【恢复计划】，点击创建，选择刚刚创建的主机组，系统将自动检测该主机组内包含的主机是否包含快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择基本的配置信息，选择恢复的目标主机为KVM平台主机，并选择已经创建的网络和恢复的规格
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-4.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择恢复的时间点信息，最后点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-5.png}
+\end{figure}
+
+\begin{itemize}
+\item 在列表页面中，选择刚刚创建的恢复计划，并点击恢复，资源开始进行恢复
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-6.png}
+\end{figure}
+
+\begin{itemize}
+\item 恢复完成后，点击【已恢复主机】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-7.png}
+\end{figure}
+
+\subsection{步骤5: 验证恢复的系统能够正常访问Oracle}
+\label{步骤5:验证恢复的系统能够正常访问oracle}
+
+\section{DRCT303: Linux MySQL数据库保护与恢复测试}
+\label{drct303:linuxmysql数据库保护与恢复测试}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&Linux MySQL数据库保护与恢复测试\\
+\midrule
+前提条件&1、CentOS7 64bit服务器上，正确配置和安装MySQL2、可以通过客户端正确访问MySQL3、在另外一台CentOS 7客户端上，已经安装了sysbench压力测试工具4、参考DRCT101完成Linux的注册和保护5、参考DRCT104将Linux加入保护\\
+测试步骤&1、手动执行快照2、开始压力测试3、再次执行快照4、使用快照点进行恢复5、验证恢复的系统能否正常访问MySQL\\
+测试预期&1、MySQL能够被正确保护2、MySQL能被正常恢复\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 手动执行快照}
+\label{步骤1:手动执行快照}
+
+\begin{itemize}
+\item 查看已保护主机,并勾选需要执行快照的主机，并点击创建快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT108-1.png}
+\end{figure}
+
+\subsection{步骤2: 开始压力测试}
+\label{步骤2:开始压力测试}
+
+\begin{itemize}
+\item 在CentOS 7客户端安装sysbench
+
+\end{itemize}
+
+\begin{quote}
+
+注意：使用Ubuntu 14.04的客户端可以直接使用sudo apt-get install -y sysbench
+\end{quote}
+
+\begin{verbatim}
+$ 　wget　http://nchc.dl.sourceforge.net/project/sysbench/sysbench/0.4.12/sysbench-0.4.12.tar.gz$　tar zxf sysbench-0.4.12.tar.gz$　cd sysbench-0.4.12$　./configure -with-mysql-includes=/usr/include/mysql \--with-mysql-libs=/var/lib/mysql$　make && make install
+\end{verbatim}
+
+\begin{itemize}
+\item MySQL数据库需要开放远程访问的权限
+
+\end{itemize}
+
+\begin{verbatim}
+$ grant all privileges on *.* to ‘root’@’%’ identified by ‘Your_password’;$ flush privileges; 
+\end{verbatim}
+
+\begin{itemize}
+\item 在客户端使用sysbench产生压力
+
+\end{itemize}
+
+\begin{verbatim}
+$ sysbench -test=oltp -max-time=60 -thread-stack-size=10000 -mysql-user=<mysql_user> -mysql-password=<mysql_password> -mysql-host=<mysql_ip>  -mysql-port=3306 prepare$ sysbench --test=oltp --max-time=60 --thread-stack-size=10000 --mysql-user=<mysql_user>  --mysql-password=<mysql_password> --mysql-host= <test_host_ip>  --mysql-port=3306 run
+\end{verbatim}
+
+\subsection{步骤3: 再次执行快照}
+\label{步骤3:再次执行快照}
+
+\begin{itemize}
+\item 查看已保护主机,并勾选需要执行快照的主机，并点击创建快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT108-1.png}
+\end{figure}
+
+\subsection{步骤4: 使用快照点进行恢复}
+\label{步骤4:使用快照点进行恢复}
+
+\begin{itemize}
+\item 进入DR Cloud，选择【灾难恢复】-$>$【主机组】，点击创建，选择主机组内包含的主机，选择已经保护的物理机，点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 创建成功后，返回列表页面中应显示主机组的内容
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-2.png}
+\end{figure}
+
+\begin{itemize}
+\item 选择【灾难恢复】-$>$【恢复计划】，点击创建，选择刚刚创建的主机组，系统将自动检测该主机组内包含的主机是否包含快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择基本的配置信息，选择恢复的目标主机为KVM平台主机，并选择已经创建的网络和恢复的规格
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-4.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择恢复的时间点信息，最后点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-5.png}
+\end{figure}
+
+\begin{itemize}
+\item 在列表页面中，选择刚刚创建的恢复计划，并点击恢复，资源开始进行恢复
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-6.png}
+\end{figure}
+
+\subsection{步骤4: 查看已经恢复的资源}
+\label{步骤4:查看已经恢复的资源}
+
+\begin{itemize}
+\item 恢复完成后，点击【已恢复主机】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-7.png}
+\end{figure}
+
+\subsection{步骤5: 验证恢复的系统能够正常访问MySQL}
+\label{步骤5:验证恢复的系统能够正常访问mysql}
+
+\section{DRCT304: Linux Oracle数据库保护与恢复测试}
+\label{drct304:linuxoracle数据库保护与恢复测试}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&Windows Oracle数据库保护与恢复测试\\
+\midrule
+前提条件&1、在CentOS 7 64bit服务器上，正确配置和安装Oracle 12c版本2、可以通过客户端正确访问Oracle3、在另外一台客户端上，已经安装了Benchmark Factory压力测试工具4、参考DRCT101完成Linux的注册和保护5、参考DRCT104将Linux加入保护\\
+测试步骤&1、手动执行快照2、开始压力测试3、再次执行快照4、使用快照点进行恢复5、验证恢复的系统能否正常访问Oracle\\
+测试预期&1、Oracle能够被正确保护2、Oracle能被正常恢复\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 手动执行快照}
+\label{步骤1:手动执行快照}
+
+\begin{itemize}
+\item 查看已保护主机,并勾选需要执行快照的主机，并点击创建快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT108-1.png}
+\end{figure}
+
+\subsection{步骤2: 开始压力测试}
+\label{步骤2:开始压力测试}
+
+\begin{itemize}
+\item 在Benchmark Factory官方网站下载试用版本并正确安装：
+
+\end{itemize}
+
+\begin{quote}
+
+https:\slash \slash www.quest.com\slash register\slash 54678\slash 
+\end{quote}
+
+\begin{itemize}
+\item 下载Oracle的客户端
+
+\end{itemize}
+
+在客户端安装Oracle客户端，访问Oracle Instance Client Downloads for Microsoft Windows(x64)页面：
+
+\begin{quote}
+
+http:\slash \slash www.oracle.com\slash technetwork\slash topics\slash winx64soft--089540.html
+\end{quote}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT302-1.png}
+\end{figure}
+
+Accept协议后，下载instanceclient-basic-windows.x64--12.1.0.2.0.zip。
+
+\begin{itemize}
+\item 配置Oracle客户端
+
+\end{itemize}
+
+下载完成后，将zip文件解压缩到C盘根目录中，例如将所有文件解压缩到C:\textbackslash{}instantclient\_12\_1中后，配置系统环境变量，在PATH中添加这个目录。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT302-2.png}
+\end{figure}
+
+\begin{itemize}
+\item 使用Benchmark连接Oracle
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT302-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 配置压力测试的类型
+
+\end{itemize}
+
+\begin{quote}
+
+注意：受被测试机器性能的限制，不建议选择过高的压力测试内容，避免服务器超载
+\end{quote}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT301-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 确认压力测试开始
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT301-2.png}
+\end{figure}
+
+\subsection{步骤3: 再次执行快照}
+\label{步骤3:再次执行快照}
+
+\begin{itemize}
+\item 查看已保护主机,并勾选需要执行快照的主机，并点击创建快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT108-1.png}
+\end{figure}
+
+\subsection{步骤4: 使用快照点进行恢复}
+\label{步骤4:使用快照点进行恢复}
+
+\begin{itemize}
+\item 进入DR Cloud，选择【灾难恢复】-$>$【主机组】，点击创建，选择主机组内包含的主机，选择已经保护的物理机，点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-1.png}
+\end{figure}
+
+\begin{itemize}
+\item 创建成功后，返回列表页面中应显示主机组的内容
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-2.png}
+\end{figure}
+
+\begin{itemize}
+\item 选择【灾难恢复】-$>$【恢复计划】，点击创建，选择刚刚创建的主机组，系统将自动检测该主机组内包含的主机是否包含快照
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-3.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择基本的配置信息，选择恢复的目标主机为KVM平台主机，并选择已经创建的网络和恢复的规格
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-4.png}
+\end{figure}
+
+\begin{itemize}
+\item 点击下一步，选择恢复的时间点信息，最后点击创建
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-5.png}
+\end{figure}
+
+\begin{itemize}
+\item 在列表页面中，选择刚刚创建的恢复计划，并点击恢复，资源开始进行恢复
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-6.png}
+\end{figure}
+
+\begin{itemize}
+\item 恢复完成后，点击【已恢复主机】
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT201-7.png}
+\end{figure}
+
+\subsection{步骤5: 验证恢复的系统能够正常访问Oracle}
+\label{步骤5:验证恢复的系统能够正常访问oracle}
+
+\section{DRCT501: 设置每页表格显示的数量}
+\label{drct501:设置每页表格显示的数量}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&设置每页表格显示的数量\\
+\midrule
+\multicolumn{2}{l}{前提条件}\\
+测试步骤&1、设置每页显示表格的数量2、查看列表页面中表格的显示数量是否改变\\
+测试预期&成功设置表格每页显示的数量\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 设置每页显示表格的数量}
+\label{步骤1:设置每页显示表格的数量}
+
+\begin{itemize}
+\item 点击【设置】-$>$【全局设置】，设置每页显示的数量，例如设置为5，然后点击保存
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT501-1.png}
+\end{figure}
+
+\subsection{步骤2: 查看列表页面中表格的显示数量是否改变}
+\label{步骤2:查看列表页面中表格的显示数量是否改变}
+
+\begin{itemize}
+\item 切换到【主机保护】-$>$【已保护主机】列表页面中，查看列表页面中显示的行数是否已经改变
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT501-2.png}
+\end{figure}
+
+\section{DRCT502: 语言设置}
+\label{drct502:语言设置}
+
+\begin{table}[htbp]
+\begin{minipage}{\linewidth}
+\setlength{\tymax}{0.5\linewidth}
+\centering
+\small
+\begin{tabulary}{\textwidth}{@{}LL@{}} \toprule
+目标&语言设置\\
+\midrule
+\multicolumn{2}{l}{前提条件}\\
+测试步骤&1、设置DR Cloud显示语言2、查看界面显示的语言是否为英文\\
+测试预期&成功设置指定语言\\
+\multicolumn{2}{l}{测试结果}\\
+\multicolumn{2}{l}{注释}\\
+
+\bottomrule
+
+\end{tabulary}
+\end{minipage}
+\end{table}
+
+\subsection{步骤1: 设置每页显示表格的数量}
+\label{步骤1:设置每页显示表格的数量}
+
+\begin{itemize}
+\item 点击【设置】-$>$【全局设置】，设置语言为English
+
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT502-1.png}
+\end{figure}
+
+\subsection{步骤2: 查看界面显示的语言是否为英文}
+\label{步骤2:查看界面显示的语言是否为英文}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[keepaspectratio,width=\textwidth,height=0.75\textheight]{images/DRCT502-2.png}
+\end{figure}
